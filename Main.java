@@ -51,7 +51,7 @@ public class Main {
 		
 		System.out.println();
 		
-		System.out.println("____________Find by Droup Name_________");
+		System.out.println("____________Find by Group Name_________");
 		System.out.println("Input folder way: ");
     	String folderWay = sc.nextLine();
     	File folderGroup = new File(folderWay);
