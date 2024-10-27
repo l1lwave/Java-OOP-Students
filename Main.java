@@ -1,11 +1,12 @@
 package lesson3firstex;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		Scanner sc = new Scanner(System.in);
 		Group group = new Group();
 		group.setGroupName("IP-22-4");
@@ -27,38 +28,47 @@ public class Main {
 		
 		System.out.println();
 		
+		System.out.println("____________Save to CSV_________");
 		GroupFileStorage fileStorage = new GroupFileStorage();
 		fileStorage.saveGroupToCSV(group);
 		
+		System.out.println();
+		
+		System.out.println("____________Load from CSV_________");
 		System.out.println("Input file way: ");
-		String fileWay = sc.nextLine();	
+		String fileWay = sc.nextLine();
 		File file = new File(fileWay);
+		if (!file.exists()) {
+			System.out.println("File don`t exist");
+		} else {
+			try {
+			    Group group2 = fileStorage.loadGroupFromCSV(file);
+			    group2.setGroupName(file.getName().replace(".csv", ""));
+			    System.out.println(group2);
+			} catch (GroupOverflowException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		try {
-            Group group2 = fileStorage.loadGroupFromCSV(file);
-            group2.setGroupName(file.getName().replace(".csv", ""));
-            System.out.println(group2);
-        } catch (GroupOverflowException e) {
-            e.printStackTrace();
-        } 
+		System.out.println();
 		
+		System.out.println("____________Find by Droup Name_________");
 		System.out.println("Input folder way: ");
     	String folderWay = sc.nextLine();
     	File folderGroup = new File(folderWay);
     	System.out.println("Input group name: ");
     	String groupName = sc.nextLine();
     	try {
-    		
+    		File result = fileStorage.findFileByGroupName(groupName, folderGroup);
+	    	if(result != null) {
+	    		System.out.println(result.toString());
+	    	} else {
+	    		System.out.println("No file");
+	    	}
     	} catch(NullPointerException e){
 			System.out.println(e.getMessage());
 
 		}
-    	File result = fileStorage.findFileByGroupName(groupName, folderGroup);
-    	if(result != null) {
-    		System.out.println(result.toString());
-    	} else {
-    		System.out.println("No file");
-    	}
     	
 	}
 
