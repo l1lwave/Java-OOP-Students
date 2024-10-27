@@ -1,7 +1,6 @@
 package lesson3firstex;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
@@ -61,6 +60,7 @@ public class Main {
     	try {
     		File result = fileStorage.findFileByGroupName(groupName, folderGroup);
 	    	if(result != null) {
+	    		System.out.println("File exist:");
 	    		System.out.println(result.toString());
 	    	} else {
 	    		System.out.println("No file");
