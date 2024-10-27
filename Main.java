@@ -31,16 +31,35 @@ public class Main {
 		fileStorage.saveGroupToCSV(group);
 		
 		System.out.println("Input file way: ");
-		String fileWay = sc.nextLine();
-		File file = new File(fileWay);		
-		try {
-			Group group2 = fileStorage.loadGroupFromCSV(file);
-			group2.setGroupName(file.getName().replace(".csv", ""));
-			System.out.println(group2.toString());
-		} catch (GroupOverflowException e) {
-			e.printStackTrace();
-		}
+		String fileWay = sc.nextLine();	
+		File file = new File(fileWay);
 		
+		try {
+            Group group2 = fileStorage.loadGroupFromCSV(file);
+            group2.setGroupName(file.getName().replace(".csv", ""));
+            System.out.println(group2);
+        } catch (GroupOverflowException e) {
+            e.printStackTrace();
+        } 
+		
+		System.out.println("Input folder way: ");
+    	String folderWay = sc.nextLine();
+    	File folderGroup = new File(folderWay);
+    	System.out.println("Input group name: ");
+    	String groupName = sc.nextLine();
+    	try {
+    		
+    	} catch(NullPointerException e){
+			System.out.println(e.getMessage());
+
+		}
+    	File result = fileStorage.findFileByGroupName(groupName, folderGroup);
+    	if(result != null) {
+    		System.out.println(result.toString());
+    	} else {
+    		System.out.println("No file");
+    	}
+    	
 	}
 
 }
