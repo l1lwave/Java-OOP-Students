@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class GroupFileStorage {
-	
 	public String toStringRepresentation(Student student) {
         return student.getName() + "," + student.getLastName() + "," + student.getGender() + "," + student.getId() + "," + student.getGroupName();
     }
@@ -67,7 +65,13 @@ public class GroupFileStorage {
 		return group;
 	}
 	
-//	public File findFileByGroupName(String groupName, File workFolder) {
-//		
-//	}
+	public File findFileByGroupName(String groupName, File workFolder) {
+		File[] files = workFolder.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].getName().equals(groupName + ".csv")) {
+				return files[i];
+			} 
+		}
+		return null;
+	}
 }
