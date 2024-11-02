@@ -2,6 +2,7 @@ package lesson3firstex;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 
 public class Group {
@@ -69,7 +70,8 @@ public class Group {
     }
     
     public void sortStudentsByLastName() {
-    	Arrays.sort(students, Comparator.nullsFirst(new sortStudentsByLastName()));
+    	Arrays.sort(students, Comparator.nullsFirst(new SortStudentsByLastName()));
+    	
     }
     
 	@Override
@@ -82,5 +84,26 @@ public class Group {
 			}
 		}
 		return result;	
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(students);
+		result = prime * result + Objects.hash(groupName);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Group other = (Group) obj;
+		return Objects.equals(groupName, other.groupName) && Arrays.equals(students, other.students);
 	}
 }
