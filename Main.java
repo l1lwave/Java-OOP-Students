@@ -72,4 +72,10 @@ public class Main {
     	
 	}
 
+	if (group.isDuplicateStudent()) {
+		System.out.println("In group is duplicate");
+	} else {
+		System.out.println("In group isn't duplicate");
+	}
+
 }
