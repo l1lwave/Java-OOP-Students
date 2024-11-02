@@ -73,6 +73,18 @@ public class Group {
     	Arrays.sort(students, Comparator.nullsFirst(new SortStudentsByLastName()));
     	
     }
+
+	public boolean isDuplicateStudent() {
+	    for (int i = 0; i < students.length; i++) {
+	        if (students[i] == null) continue;
+	        for (int j = i + 1; j < students.length; j++) {
+	            if (students[j] != null && students[i].equals(students[j])) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
+	}
     
 	@Override
 	public String toString(){
