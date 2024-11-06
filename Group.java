@@ -1,15 +1,15 @@
 package lesson3firstex;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 
 public class Group {
 	private String groupName;
-    private	Student[] students = new Student[10];
+    private	ArrayList<Student> students = new ArrayList<>();
     
-    public Group(String groupName, Student[] students) {
+    public Group(String groupName, ArrayList<Student> students) {
 		super();
 		this.groupName = groupName;
 		this.students = students;
@@ -27,84 +27,67 @@ public class Group {
 		this.groupName = groupName;
 	}
 
-	public Student[] getStudents() {
+	public ArrayList<Student> getStudents() {
 		return students;
 	}
 
-	public void setStudents(Student[] students) {
+	public void setStudents(ArrayList<Student> students) {
 		this.students = students;
 	}
 
 	public void addStudent(Student student) throws GroupOverflowException{
-    	for (int i = 0; i < students.length; i++) {
-			if(students[i] == null) {
-				students[i] = student;
-				System.out.println("Student " + student.getLastName() + " is added.");
-				return;
-			}
-		}
-    	throw new GroupOverflowException("The group already has 10 students.");
+    	if(students.size() < 10) {
+    		students.add(student);
+    	} else {
+    		throw new GroupOverflowException("The group already has 10 students.");
+    	}
     }
     
     public Student searchStudentByLastName(String lastName) throws StudentNotFoundException{
-    	for(int i = 0; i < students.length; i++) {
-    		if(students[i] != null) {
-    			if(students[i].getLastName().equals(lastName)) {
-    				return students[i];
-    			}
+    	for (Student student : students) {
+    		if(student.getLastName().equals(lastName)) {
+    			return student;
     		}
-    	}
+		}
     	throw new StudentNotFoundException("Don't found this student.");
     }
     
     public boolean removeStudentByID(int id) {
-    	for (int i = 0; i < students.length; i++) { 
-    		if(students[i] != null) {
-    			if (students[i].getId() == id) {
-    				students[i] = null; 
-                    return true;
-    			}
-    		}
+    	if(!students.isEmpty()) {
+	    	students.remove(id);
+	    	return true;
     	}
-        return false;
+    	return false;
     }
     
     public void sortStudentsByLastName() {
-    	Arrays.sort(students, Comparator.nullsFirst(new SortStudentsByLastName()));
-    	
+    	Collections.sort(students, new SortStudentsByLastName());
     }
+    
+	@Override
+	public String toString(){
+		this.sortStudentsByLastName();
+		String result = "Group " + groupName + System.lineSeparator();
+		for (Student student : students) {
+			result += student + System.lineSeparator();
+		}
+		return result;	
+	}
 
 	public boolean isDuplicateStudent() {
-	    for (int i = 0; i < students.length; i++) {
-	        if (students[i] == null) continue;
-	        for (int j = i + 1; j < students.length; j++) {
-	            if (students[j] != null && students[i].equals(students[j])) {
+	    for (int i = 0; i < students.size(); i++) {
+	        for (int j = i + 1; j < students.size(); j++) {
+	            if (students.get(i).equals(students.get(j))) {
 	                return true;
 	            }
 	        }
 	    }
 	    return false;
 	}
-    
-	@Override
-	public String toString(){
-		this.sortStudentsByLastName();
-		String result = "Group " + groupName + System.lineSeparator();
-		for (int i = 0; i < students.length; i++) {
-			if(students[i] != null) {
-				result += students[i] + System.lineSeparator();
-			}
-		}
-		return result;	
-	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(students);
-		result = prime * result + Objects.hash(groupName);
-		return result;
+		return Objects.hash(groupName, students);
 	}
 
 	@Override
@@ -116,6 +99,9 @@ public class Group {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		return Objects.equals(groupName, other.groupName) && Arrays.equals(students, other.students);
+		return Objects.equals(groupName, other.groupName) && Objects.equals(students, other.students);
 	}
+	
+		
+	
 }
