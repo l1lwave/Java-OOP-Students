@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GroupFileStorage {
 	public String toStringRepresentation(Student student) {
@@ -16,9 +17,7 @@ public class GroupFileStorage {
 		String f = gr.getGroupName() + ".csv";
 		
 		File file = new File(f);
-		Student[] students = gr.getStudents();
-		
-		StringBuilder csvRepresentation = new StringBuilder();
+		ArrayList<Student> students = gr.getStudents();
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (Student student : students) {
